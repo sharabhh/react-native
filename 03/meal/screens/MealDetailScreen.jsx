@@ -1,13 +1,36 @@
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Button,
+  Alert,
+} from "react-native";
+import React, { useCallback, useLayoutEffect } from "react";
 import { MEALS } from "../data/dummy-data";
 import MealDetail from "../components/MealDetail";
 import Subtitle from "../components/MealDetail/Subtitle";
 import List from "../components/MealDetail/List";
+import { useNavigation } from "@react-navigation/native";
+import IconButton from "../components/IconButton";
 
-const MealDetailScreen = ({ route }) => {
+const MealDetailScreen = ({ route, navigation }) => {
   const catId = route.params.mealId;
   const selectedMeal = MEALS.find((mealItem) => mealItem.id === catId);
+  // const navigation = useNavigation();
+  const handlePressedHandler = () => {
+    Alert.alert("Pressed");
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <IconButton icon="star" color="white" 
+        onPress={handlePressedHandler}/>;
+      },
+    });
+  }, [navigation, handlePressedHandler]);
   return (
     <ScrollView style={styles.rootContainer}>
       <Image style={styles.image} source={{ uri: selectedMeal.imageUrl }} />
