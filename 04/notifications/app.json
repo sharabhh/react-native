@@ -32,7 +32,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5d7b90eb-f700-4f59-a96d-0205a2072588"
+      }
+    },
+    "owner": "sharabh"
   }
 }
