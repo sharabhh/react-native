@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const AllPlaces = () => {
+const PlaceForm = () => {
   return (
     <View>
-      <Text>AllPlaces</Text>
+      <Text>PlaceForm</Text>
     </View>
   )
 }
 
-export default AllPlaces
+export default PlaceForm
