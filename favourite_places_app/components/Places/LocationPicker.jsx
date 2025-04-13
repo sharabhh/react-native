@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OutlinedButton from "../ui/OutlinedButton";
 import { Colors } from "../../constants/Colors";
-import { useNavigation } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
@@ -10,9 +14,23 @@ import {
 } from "expo-location";
 
 const LocationPicker = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
   const [locationPermissionInformation, requestLocationPermission] =
     useForegroundPermissions();
-const navigation = useNavigation();
+  const [pickedLocation, setPickedLocation] = useState();
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        lat: route.params.pickedLat,
+        lng: route.params.pickedLng,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [route, isFocused]);
+
   async function verifyPermissions() {
     if (
       locationPermissionInformation.status === PermissionStatus.UNDETERMINED
@@ -45,13 +63,15 @@ const navigation = useNavigation();
   }
 
   function pickOnMapHandler() {
-    navigation.navigate("Map")
+    navigation.navigate("Map");
   }
 
   return (
     <View>
       <View style={styles.mapPreview}>
-        <Text style={{ color: "white" }}>requires card details in google maps</Text>
+        <Text style={{ color: "white" }}>
+          requires card details in google maps
+        </Text>
       </View>
       <View style={styles.actions}>
         <OutlinedButton icon={"camera"} onPress={getLocationHandler}>
